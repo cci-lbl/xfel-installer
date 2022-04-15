@@ -18,15 +18,15 @@ resources:
     - repository: cctbx_project
       type: github
       name: cctbx/cctbx_project
-      endpoint: phenix-installer
+      endpoint: xfel-installer
   pipelines:
   - pipeline: data_cache
     source: 'Update data cache'
 
 jobs:
-- job: Build_phenix_source_tarball
+- job: Build_xfel_source_tarball
   pool:
-    vmImage: ubuntu-18.04
+    vmImage: ubuntu-latest
   timeoutInMinutes: 360
 
   # variables for version
@@ -86,7 +86,7 @@ jobs:
 
   # download support scripts
   - checkout: self
-    path: ./phenix-installer
+    path: ./xfel-installer
 
   # link bootstrap.py
   - script: |
@@ -96,60 +96,57 @@ jobs:
       mkdir modules
     displayName: Download bootstrap.py
 
-  # download test data
-  - template: .azure-pipelines/templates/download-data-cache.yml@cctbx_project
-
   # download remaining sources
   - script: |
       set -xe
       cd $(Pipeline.Workspace)
-      python bootstrap.py hot update --builder=phenix_voyager --use-conda --python 37 --cciuser=builder
+      python bootstrap.py hot update --builder=xfel --python=39 --no-boost-src
+      cd modules
+      git clone https://github.com/nksauter/LS49.git
+      git clone https://gitlab.com/cctbx/ls49_big_data.git
+      git clone -b azure https://github.com/bkpoon/lunus.git
     displayName: Download remaining sources
 
-  # base and build
   - script: |
-      set -xe
       cd $(Pipeline.Workspace)
-      python bootstrap.py base build --builder=phenix_voyager --use-conda --python 37 --nproc=4
-    displayName: Configure and Build
+      cd modules/uc_metrics
+      git lfs install --local
+      git lfs pull
+      cd ../ls49_big_data
+      git lfs install --local
+      git lfs pull
+    displayName: Download LFS files
 
-  # remove symoblic link for Windows
-  - script: |
-      set -xe
-      cd $(Pipeline.Workspace)/modules/phenix/wxGUI2/images
-      rm -f splash-refine.png
-      cp splash-refine-1.3.png splash-refine.png
-    displayName: Remove symoblic link to image
-
-  # build source tarball
-  # build/bin/libtbx.create_installer --version $(version) --install_script modules/cctbx_project/libtbx/auto_build/plus_installer.py --dist_dir dist/$(version) tmp/cctbx-$(version)
-  - script: |
-      set -xe
-      cd $(Pipeline.Workspace)
-      build/bin/libtbx.create_installer \
-        --version $(version) \
-        --install_script modules/phenix/phenix/installer/phenix_voyager_installer.py \
-        --license modules/phenix/LICENSE.txt --readme modules/phenix/CHANGES \
-        --readme modules/phenix/phenix/installer/README \
-        --readme modules/phenix/phenix/installer/SOURCES \
-        --dist_dir dist/$(version) \
-        tmp/phenix-installer-$(version)-source
-      rm -fr build tmp modules
-      cd ./dist/$(version)
-      gzip -d phenix-installer-$(version)-source.tar.gz
-      openssl enc \
-        -aes-256-cbc \
-        -salt \
-        -md sha256 \
-        -iter 100000 \
-        -pbkdf2 \
-        -in phenix-installer-$(version)-source.tar \
-        -out phenix.enc \
-        -pass env:TARBALL_PASSWORD
-      tar -zcf phenix.tar.gz phenix.enc
-    displayName: Build source tarball
-
-  # publish source tarball as artifact
-  - publish: $(Pipeline.Workspace)/dist/$(version)/phenix.tar.gz
-    artifact: phenix
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      source: 'specific'
+      project: '$(resources.pipeline.data_cache.projectID)'
+      pipeline: '$(resources.pipeline.data_cache.pipelineID)'
+      artifact: 'xfel_regression'
+      path: $(Pipeline.Workspace)/modules/xfel_regression
+    displayName: Download xfel_regression
     continueOnError: true
+
+  - script: |
+      if [ ! -d "$(Pipeline.Workspace)/modules/xfel_regression" ]; then
+        git co https://gitlab.com/cctbx/xfel_regression.git $(Pipeline.Workspace)/modules/xfel_regression
+      fi
+      cd $(Pipeline.Workspace)/modules/xfel_regression
+      git reset --hard origin/main
+      git lfs install --local
+      git pull --rebase
+      git lfs pull
+    displayName: Update xfel_regression
+
+  # preserve permissions and delete extra files
+  - script: |
+      cd $(Pipeline.Workspace)
+      rm -fr modules/*/.git/*
+      rm -fr modules/*/.svn/*
+      rm -fr modules/*.tar
+      tar -cf modules.tar modules
+    displayName: Build tarball
+
+  # publish artifact
+  - publish: $(Pipeline.Workspace)/modules.tar
+    artifact: xfel_modules

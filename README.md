@@ -1,2 +1,2 @@
-# phenix-installer
-Azure Pipelines for building Phenix installers
+# xfel-installer
+Azure Pipelines for building xfel installers

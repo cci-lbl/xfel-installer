@@ -26,7 +26,7 @@ resources:
     - repository: cctbx_project
       type: github
       name: cctbx/cctbx_project
-      endpoint: phenix-installer
+      endpoint: xfel-installer
   # this pipeline resource needs to be commented out when run for the first time
   pipelines:
   - pipeline: data_cache
