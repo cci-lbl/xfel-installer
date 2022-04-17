@@ -1,4 +1,4 @@
-# Build phenix source tarball
+# Build xfel source tarball
 
 # no continuous integration builds or pull requests
 trigger: none
@@ -13,15 +13,15 @@ schedules:
     always: true
 
 # template location
-resources:
-  repositories:
-    - repository: cctbx_project
-      type: github
-      name: cctbx/cctbx_project
-      endpoint: xfel-installer
-  pipelines:
-  - pipeline: data_cache
-    source: 'Update data cache'
+# resources:
+#   repositories:
+#     - repository: cctbx_project
+#       type: github
+#       name: cctbx/cctbx_project
+#       endpoint: xfel-installer
+#   pipelines:
+#   - pipeline: data_cache
+#     source: 'Update data cache'
 
 jobs:
 - job: Build_xfel_source_tarball
