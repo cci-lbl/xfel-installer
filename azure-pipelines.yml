@@ -40,7 +40,7 @@ jobs:
   - name: version
     value: $(year).$(month).a$(day)
   # variable for secrets
-  - group: ENV_GROUP
+  # - group: ENV_GROUP
 
   steps:
 
