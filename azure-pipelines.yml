@@ -144,9 +144,11 @@ jobs:
       rm -fr modules/*/.git/*
       rm -fr modules/*/.svn/*
       rm -fr modules/*.tar
-      tar -cf modules.tar modules
+      mkdir xfel_source
+      mv modules xfel_source
+      tar -cf xfel_source.tar xfel_source
     displayName: Build tarball
 
   # publish artifact
-  - publish: $(Pipeline.Workspace)/modules.tar
+  - publish: $(Pipeline.Workspace)/xfel_source.tar
     artifact: xfel_modules
