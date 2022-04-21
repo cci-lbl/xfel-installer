@@ -18,12 +18,12 @@ jobs:
     matrix:
       linux_py39:
         vmImage: ubuntu-18.04
-        platform: linux
+        platform: Linux
         py_ver: 3.9
         np_ver: 1.19
       macOS_py39:
         vmImage: macOS-latest
-        platform: osx
+        platform: MacOSX
         py_ver: 3.9
         np_ver: 1.19
       # win_py39:
@@ -124,5 +124,5 @@ jobs:
     displayName: Create installer
 
   # publish artifact
-  - publish: ./constructor/cctbx.xfel*
+  - publish: ./constructor/cctbx.xfel-$(version)-x86_64.sh
     artifact: cctbx.xfel-installer
