@@ -1,4 +1,4 @@
-name: phenix
+name: cctbx
 version: VERSION
 
 company: Lawrence Berkeley National Laboratory
@@ -9,6 +9,6 @@ initialize_by_default: false
 channels:
   - https://conda.anaconda.org/conda-forge
 
-environment: phenix
+environment: cctbx
 
 installer_type: all
