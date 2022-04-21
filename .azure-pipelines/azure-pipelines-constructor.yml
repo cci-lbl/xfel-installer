@@ -124,5 +124,5 @@ jobs:
     displayName: Create installer
 
   # publish artifact
-  - publish: ./constructor/cctbx.xfel-$(version)-x86_64.sh
+  - publish: ./constructor/cctbx.xfel-$(version)-$(platform)-x86_64.sh
     artifact: cctbx.xfel-installer
