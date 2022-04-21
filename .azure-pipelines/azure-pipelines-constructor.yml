@@ -52,6 +52,11 @@ jobs:
       sshKeySecureFile: id_rsa
     displayName: Download SSH key
 
+  - task: DownloadSecureFile@1
+    name: upload_key
+    inputs:
+      secureFile: phenix-lbl-4f3f6ca7f212.json
+
   # set version
   - powershell: |
       $trimmed_month = $(month).TrimStart("0")
@@ -117,3 +122,7 @@ jobs:
       constructor .
       ls
     displayName: Create installer
+
+  # publish artifact
+  - publish: ./constructor/cctbx.xfel*
+    artifact: cctbx.xfel-installer
