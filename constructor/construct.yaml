@@ -7,8 +7,9 @@ license_file: LICENSE.txt
 initialize_by_default: false
 
 channels:
+  - https://conda.anaconda.org/xfel
   - https://conda.anaconda.org/conda-forge
 
-environment: cctbx
-
-installer_type: all
+specs:
+  - cctbx.xfel
+  - pycbf

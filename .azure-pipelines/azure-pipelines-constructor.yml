@@ -26,11 +26,11 @@ jobs:
         platform: osx
         py_ver: 3.9
         np_ver: 1.19
-      win_py39:
-        vmImage: win-latest
-        platform: win
-        py_ver: 3.9
-        np_ver: 1.19
+      # win_py39:
+      #   vmImage: win-latest
+      #   platform: win
+      #   py_ver: 3.9
+      #   np_ver: 1.19
 
   pool:
     vmImage: $(vmImage)
@@ -100,58 +100,15 @@ jobs:
   # set up constructor environment
   - script: |
       set -xe
-      conda create -n construct -y -c conda-forge constructor python=3.9
+      conda create -n construct -y -c conda-forge constructor
     displayName: Set up constructor environment
 
   # patch constructor to avoid check
-  - script: |
-      set -xe
-      cd constructor
-      python3 patch_fcp.py --site-packages ${CONDA}/envs/construct/lib/python3.9/site-packages
-    displayName: Patch constructor
-
-  # download latest phenix conda package
-  # - task: DownloadPipelineArtifact@2
-  #   inputs:
-  #     source: 'specific'
-  #     project: '$(resources.pipeline.phenix_feedstock.projectID)'
-  #     pipeline: '$(resources.pipeline.phenix_feedstock.pipelineID)'
-  #     preferTriggeringPipeline: true
-  #     allowPartiallySucceededBuilds: true
-  #     allowFailedBuilds: true
-  #     patterns: '**/*$(platform)_64_python$(py_ver)*'
-  #     # patterns: '**/*$(platform)_64_numpy$(np_ver)python$(py_ver)*'
-
-  - script: |
-      set -xe
-
-      conda create -n cctbx -y -c xfel -c conda-forge cctbx.xfel
-
-      # cd $(Pipeline.Workspace)/conda_artifacts*
-      # unzip phenix-feedstock*.zip
-
-      # if [ -d build_artifacts ]; then
-      #   cd build_artifacts
-      # fi
-      # cd $(platform)-64
-
-      # mkdir $(Pipeline.Workspace)/$(platform)-64
-      # mv phenix* $(Pipeline.Workspace)/$(platform)-64/
-
-      # cd $(Pipeline.Workspace)/$(platform)-64
-      # conda create -n phenix -y
-      # source activate phenix
-      # conda install -y phenix*
-
-      # cd ${CONDA_PREFIX}/share/phenix/conda_envs
-
-      # version=`echo $(py_ver) | sed 's/\.//'`
-
-      # conda install -y --file phenix_py${version}_$(platform)-64.txt
-
-      # pip install ortools
-
-    displayName: Create installer environment
+  # - script: |
+  #     set -xe
+  #     cd constructor
+  #     python3 patch_fcp.py --site-packages ${CONDA}/envs/construct/lib/python3.9/site-packages
+  #   displayName: Patch constructor
 
   - script: |
       set -xe
@@ -160,40 +117,3 @@ jobs:
       constructor .
       ls
     displayName: Create installer
-
-  # - script: |
-  #     set -xe
-
-  #     dev=`python3 -c 'import time; print("dev-%s"%(int((time.time() - 1255046400) / (24*60*60))))'`
-  #     # dev=`python3 -c 'import time; print("1.20.1-%s"%(int((time.time() - 1255046400) / (24*60*60))))'`
-  #     installer_dir=/net/cci-filer2/raid1/auto_build/phenix_installers
-
-  #     ssh builder@cci.lbl.gov "mkdir -p ${installer_dir}/${dev}"
-  #     ssh builder@cci.lbl.gov "mkdir -p ${installer_dir}/${dev}/$(platform)-64"
-  #     ssh builder@cci.lbl.gov "mkdir -p ${installer_dir}/staging/${dev}"
-  #     ssh builder@cci.lbl.gov "mkdir -p ${installer_dir}/staging/${dev}/$(platform)-64"
-
-  #     cd constructor
-  #     for f in `/bin/ls phenix*`; do
-  #       echo Copying ${f}
-  #       scp ${f} builder@cci.lbl.gov:${installer_dir}/staging/${dev}/${f}
-  #     done
-
-  #     for f in `/bin/ls phenix*`; do
-  #       echo Moving ${f}
-  #       ssh builder@cci.lbl.gov "mv -f ${installer_dir}/staging/${dev}/${f} ${installer_dir}/${dev}/${f}"
-  #     done
-
-  #     cd $(Pipeline.Workspace)/$(platform)-64
-  #     for f in `/bin/ls phenix*`; do
-  #       echo Copying ${f}
-  #       scp ${f} builder@cci.lbl.gov:${installer_dir}/staging/${dev}/$(platform)-64/${f}
-  #     done
-
-  #     for f in `/bin/ls phenix*`; do
-  #       echo Moving ${f}
-  #       ssh builder@cci.lbl.gov "mv -f ${installer_dir}/staging/${dev}/$(platform)-64/${f} ${installer_dir}/${dev}/$(platform)-64/${f}"
-  #     done
-
-  #   displayName: Upload installer
-  #   condition: eq(variables['py_ver'], '3.7')
