@@ -125,4 +125,4 @@ jobs:
 
   # publish artifact
   - publish: ./constructor/cctbx.xfel-$(version)-$(platform)-x86_64.sh
-    artifact: cctbx.xfel-installer
+    artifact: $(platform)-installer
