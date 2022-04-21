@@ -1,4 +1,4 @@
-# Run constructor after phenix-feedstock finishes
+# Run constructor after xfel-feedstock finishes
 
 # no continuous integration builds or pull requests
 trigger: none
@@ -6,13 +6,13 @@ pr: none
 
 resources:
   pipelines:
-  - pipeline: phenix_feedstock
+  - pipeline: xfel_feedstock
     project: 'feedstock-builds'
-    source: 'phenix-feedstock'
+    source: 'xfel-feedstock'
     trigger: true
 
 jobs:
-- job: Construct_phenix_installer
+- job: Construct_xfel_installer
 
   strategy:
     matrix:
