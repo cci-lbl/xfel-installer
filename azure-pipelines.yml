@@ -4,7 +4,7 @@
 trigger: none
 pr: none
 
-# schedules:
+schedules:
   - cron: '0 5 * * *'
     displayName: Nightly source update
     branches:
