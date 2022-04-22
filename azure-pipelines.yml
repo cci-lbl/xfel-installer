@@ -5,12 +5,12 @@ trigger: none
 pr: none
 
 # schedules:
-#   - cron: '0 5 * * *'
-#     displayName: Nightly source update
-#     branches:
-#       include:
-#       - main
-#     always: true
+  - cron: '0 5 * * *'
+    displayName: Nightly source update
+    branches:
+      include:
+      - main
+    always: true
 
 # template location
 # resources:
@@ -66,7 +66,7 @@ jobs:
     displayName: Set variables from date
 
   - script: |
-      version=$(year).$(month).a$(day)
+      version=$(year).$(month).$(day)
       echo "##vso[task.setVariable variable=version]$version"
       echo $(version)
     displayName: Set version
