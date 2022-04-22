@@ -132,9 +132,10 @@ jobs:
       set -xe
       conda create -n upload -y -c xfel -c conda-forge cctbx.xfel pydrive2
       source activate upload
-      libtbx.python ./constructor/upload_installer.py \
-        --credentials ./phenix-lbl-4f3f6ca7f212.json \
+      cd constructor
+      libtbx.python ./upload_installer.py \
+        --credentials $(upload_key.secureFilePath) \
         --folder_id 1DVRkUc_nlS4i19zyI7OVdUcHcTI50YTz \
         --folder_list $(version) \
-        --files ./constructor/cctbx.xfel-$(version)-$(platform)-x86_64.sh
+        --files ./cctbx.xfel-$(version)-$(platform)-x86_64.sh
     displayName: Upload installer to Google Drive
