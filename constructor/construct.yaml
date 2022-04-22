@@ -13,3 +13,14 @@ channels:
 specs:
   - cctbx.xfel
   - pycbf
+  # testing
+  - dials-data
+  - pytest <7
+  - pytest-forked
+  - pytest-mock
+  - pytest-xdist
+  # optional
+  - gemmi
+  - jupyterlab
+  - mdtraj
+  - reciprocalspaceship
