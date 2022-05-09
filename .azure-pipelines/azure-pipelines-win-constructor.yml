@@ -41,7 +41,7 @@ jobs:
     year: $(Get-Date -Format yyyy)
     month: $(Get-Date -Format MM)
     day: $(Get-Date -Format dd)
-    version: $(year).$(month)a$(day)
+    version: $(year).$(month).$(day)
 
   steps:
 
@@ -58,24 +58,24 @@ jobs:
       secureFile: phenix-lbl-4f3f6ca7f212.json
 
   # set version
-  - powershell: |
-      $trimmed_month = $(month).TrimStart("0")
-      $trimmed_day = $(day).TrimStart("0")
-      Write-Host $trimmed_month
-      Write-Host $trimmed_day
-      Write-Host "##vso[task.setVariable variable=year]$(year)"
-      Write-Host "##vso[task.setVariable variable=month]$trimmed_month"
-      Write-Host "##vso[task.setVariable variable=day]$trimmed_day"
-      Write-Host $(year)
-      Write-Host $(month)
-      Write-Host $(day)
-    displayName: Set variables from date
+  # - powershell: |
+  #     $trimmed_month = $(month).TrimStart("0")
+  #     $trimmed_day = $(day).TrimStart("0")
+  #     Write-Host $trimmed_month
+  #     Write-Host $trimmed_day
+  #     Write-Host "##vso[task.setVariable variable=year]$(year)"
+  #     Write-Host "##vso[task.setVariable variable=month]$trimmed_month"
+  #     Write-Host "##vso[task.setVariable variable=day]$trimmed_day"
+  #     Write-Host $(year)
+  #     Write-Host $(month)
+  #     Write-Host $(day)
+  #   displayName: Set variables from date
 
-  - powershell:  |
-      $version=$(year).$(month).$(day)
-      Write-Host "##vso[task.setVariable variable=version]$version"
-      echo $(version)
-    displayName: Set version
+  # - powershell:  |
+  #     $version=$(year).$(month).$(day)
+  #     Write-Host "##vso[task.setVariable variable=version]$version"
+  #     echo $(version)
+  #   displayName: Set version
 
   # - script: |
   #     set -xe
@@ -91,7 +91,6 @@ jobs:
   - powershell: |
       cd constructor
       python3 update_version.py --version $(version)
-      if %errorlevel% neq 0 exit /b %errorlevel%
     displayName: Update version
 
   # add conda to path
