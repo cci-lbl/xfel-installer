@@ -115,7 +115,6 @@ jobs:
       source activate construct
       cd constructor
       constructor .
-      if %errorlevel% neq 0 exit /b %errorlevel%
       dir
     displayName: Create installer
 
