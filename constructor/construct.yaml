@@ -20,8 +20,11 @@ specs:
   - pytest-mock
   - pytest-xdist
   # optional
+  - ambertools  # [unix and x86_64]
   - gemmi
+  - gromacs  # [unix and x86_64]
   - jupyterlab
   - mdtraj
   - nexpy
+  - parmed  # [unix and x86_64]
   - reciprocalspaceship
