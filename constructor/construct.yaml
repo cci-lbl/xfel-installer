@@ -23,4 +23,5 @@ specs:
   - gemmi
   - jupyterlab
   - mdtraj
+  - nexpy
   - reciprocalspaceship
