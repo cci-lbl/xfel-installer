@@ -25,6 +25,7 @@ specs:
   - gromacs  # [unix and x86_64]
   - jupyterlab
   - mdtraj
+  - nglview
   - nexpy
   - parmed  # [unix and x86_64]
   - reciprocalspaceship
