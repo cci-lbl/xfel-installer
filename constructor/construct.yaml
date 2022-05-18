@@ -5,6 +5,7 @@ company: Lawrence Berkeley National Laboratory
 license_file: LICENSE.txt
 
 initialize_by_default: false
+register_python_default: false
 
 channels:
   - https://conda.anaconda.org/xfel
