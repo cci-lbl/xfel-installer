@@ -139,3 +139,14 @@ jobs:
         --folder_list $(version) \
         --files ./cctbx.xfel-$(version)-$(platform)-x86_64.sh
     displayName: Upload installer to Google Drive
+
+  # run installer and do a simple verification
+  - script: |
+      set -xe
+      cd constructor
+      chmod +x ./cctbx.xfel-$(version)-$(platform)-x86_64.sh
+      ./cctbx.xfel-$(version)-$(platform)-x86_64.sh -b -f -p $(Pipeline.Workspace)/test
+      cd $(Pipeline.Workspace)/test
+      mkdir test
+      cd test
+      ../bin/libtbx.run_tests_parallel module=simtbx nproc=4
