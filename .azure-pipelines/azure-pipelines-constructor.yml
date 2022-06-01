@@ -127,6 +127,29 @@ jobs:
   - publish: ./constructor/cctbx.xfel-$(version)-$(platform)-x86_64.sh
     artifact: $(platform)-installer
 
+  # run installer
+  - script: |
+      set -xe
+      cd constructor
+      chmod +x ./cctbx.xfel-$(version)-$(platform)-x86_64.sh
+      ./cctbx.xfel-$(version)-$(platform)-x86_64.sh -b -f -p $(Pipeline.Workspace)/test
+    displayName: Run installer
+
+  # test installer
+  - script: |
+      set -xe
+      cd $(Pipeline.Workspace)
+      mkdir test_installer
+      cd test_installer
+      $(Pipeline.Workspace)/test/bin/libtbx.run_tests_parallel \
+        module=cctbx \
+        module=iotbx \
+        module=libtbx \
+        module=scitbx \
+        module=simtbx \
+        nproc=4
+    displayName: Test installer
+
   # upload installer to Google Drive
   - script: |
       set -xe
@@ -139,15 +162,3 @@ jobs:
         --folder_list $(version) \
         --files ./cctbx.xfel-$(version)-$(platform)-x86_64.sh
     displayName: Upload installer to Google Drive
-
-  # run installer and do a simple verification
-  - script: |
-      set -xe
-      cd constructor
-      chmod +x ./cctbx.xfel-$(version)-$(platform)-x86_64.sh
-      ./cctbx.xfel-$(version)-$(platform)-x86_64.sh -b -f -p $(Pipeline.Workspace)/test
-      cd $(Pipeline.Workspace)/test
-      mkdir test_simtbx
-      cd test_simtbx
-      ../bin/libtbx.run_tests_parallel module=simtbx nproc=4
-    displayName: Verify installer
