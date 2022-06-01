@@ -147,6 +147,7 @@ jobs:
       chmod +x ./cctbx.xfel-$(version)-$(platform)-x86_64.sh
       ./cctbx.xfel-$(version)-$(platform)-x86_64.sh -b -f -p $(Pipeline.Workspace)/test
       cd $(Pipeline.Workspace)/test
-      mkdir test
-      cd test
+      mkdir test_simtbx
+      cd test_simtbx
       ../bin/libtbx.run_tests_parallel module=simtbx nproc=4
+    displayName: Verify installer
