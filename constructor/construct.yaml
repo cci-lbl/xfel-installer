@@ -23,6 +23,7 @@ specs:
   # optional
   - ambertools  # [unix and x86_64]
   - gemmi
+  - gnuplot  # [unix and x86_64]
   - gromacs  # [unix and x86_64]
   - jupyterlab
   - mdtraj
