@@ -149,6 +149,7 @@ jobs:
         module=simtbx \
         nproc=4
     displayName: Test installer
+    continueOnError: true
 
   # upload installer to Google Drive
   - script: |
