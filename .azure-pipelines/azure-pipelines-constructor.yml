@@ -156,6 +156,9 @@ jobs:
 
       conda create -n upload -y -c conda-forge python=3.9 pydrive2 boost=1.74 tabulate tqdm
       source activate upload
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+        conda install -y -c conda-forge python.app
+      fi
       conda install -y -c xfel -c conda-forge --no-deps cctbx.xfel
 
       cd constructor
