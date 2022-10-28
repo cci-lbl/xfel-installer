@@ -17,7 +17,7 @@ jobs:
   strategy:
     matrix:
       linux_py39:
-        vmImage: ubuntu-18.04
+        vmImage: ubuntu-latest
         platform: Linux
         py_ver: 3.9
         np_ver: 1.19

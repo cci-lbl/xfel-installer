@@ -15,7 +15,7 @@ pr: none
 resources:
   pipelines:
   - pipeline: source_tarball
-    source: source_tarball
+    source: source_tarball_erice
     trigger: true
   repositories:
   - repository: xfel_feedstock
