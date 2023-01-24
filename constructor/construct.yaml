@@ -25,6 +25,7 @@ specs:
   - gemmi
   - gnuplot  # [unix and x86_64]
   - gromacs  # [unix and x86_64]
+  - jsonschema-with-format-nongpl
   - jupyterlab
   - mdtraj
   - nglview
