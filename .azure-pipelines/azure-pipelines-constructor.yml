@@ -18,19 +18,16 @@ jobs:
     matrix:
       linux_py39:
         vmImage: ubuntu-latest
-        platform: Linux
+        platform: Linux-x86_64
         py_ver: 3.9
-        np_ver: 1.19
       macOS_py39:
         vmImage: macOS-latest
-        platform: MacOSX
+        platform: MacOSX-x86_64
         py_ver: 3.9
-        np_ver: 1.19
-      # win_py39:
-      #   vmImage: win-latest
-      #   platform: win
-      #   py_ver: 3.9
-      #   np_ver: 1.19
+      macOS_arm64_py39:
+        vmImage: macOS-latest
+        platform: MacOSX-arm64
+        py_ver: 3.9
 
   pool:
     vmImage: $(vmImage)
@@ -108,32 +105,44 @@ jobs:
       conda create -n construct -y -c conda-forge constructor
     displayName: Set up constructor environment
 
-  # patch constructor to avoid check
-  # - script: |
-  #     set -xe
-  #     cd constructor
-  #     python3 patch_fcp.py --site-packages ${CONDA}/envs/construct/lib/python3.9/site-packages
-  #   displayName: Patch constructor
-
   - script: |
       set -xe
+
+      # cross-platform constructor
+      # https://github.com/conda-forge/miniforge/blob/main/scripts/build.sh
+      if [[ "$(platform)" == *"arm64" ]]; then
+        TEMP_DIR=$(mktemp -d)
+        mkdir "${TEMP_DIR}/conda-standalone"
+        pushd "${TEMP_DIR}/conda-standalone"
+        curl -L -O "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-4.10.3-osx-arm64.exe"
+        CONDA_STANDALONE="${PWD}/conda-4.10.3-osx-arm64.exe"
+        popd
+      fi
+
       source activate construct
       cd constructor
-      constructor .
+
+      if [[ "$(platform)" == *"arm64" ]]; then
+        constructor . --conda-exe ${CONDA_STANDALONE} --platform osx-arm64
+      else
+        constructor .
+      fi
+
       ls
     displayName: Create installer
 
   # publish artifact
-  - publish: ./constructor/cctbx.xfel-$(version)-$(platform)-x86_64.sh
+  - publish: ./constructor/cctbx.xfel-$(version)-$(platform).sh
     artifact: $(platform)-installer
 
   # run installer
   - script: |
       set -xe
       cd constructor
-      chmod +x ./cctbx.xfel-$(version)-$(platform)-x86_64.sh
-      ./cctbx.xfel-$(version)-$(platform)-x86_64.sh -b -f -p $(Pipeline.Workspace)/test
+      chmod +x ./cctbx.xfel-$(version)-$(platform).sh
+      ./cctbx.xfel-$(version)-$(platform).sh -b -f -p $(Pipeline.Workspace)/test
     displayName: Run installer
+    condition: ne(variables['platform'], 'MacOSX-arm64')
 
   # test installer
   - script: |
@@ -150,6 +159,7 @@ jobs:
         nproc=4
     displayName: Test installer
     continueOnError: true
+    condition: ne(variables['platform'], 'MacOSX-arm64')
 
   # upload installer to Google Drive
   - script: |
@@ -167,5 +177,5 @@ jobs:
         --credentials $(upload_key.secureFilePath) \
         --folder_id 1DVRkUc_nlS4i19zyI7OVdUcHcTI50YTz \
         --folder_list $(version) \
-        --files ./cctbx.xfel-$(version)-$(platform)-x86_64.sh
+        --files ./cctbx.xfel-$(version)-$(platform).sh
     displayName: Upload installer to Google Drive
