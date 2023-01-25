@@ -165,7 +165,7 @@ jobs:
   - script: |
       set -xe
 
-      conda create -n upload -y -c conda-forge python=3.9 pydrive2 boost=1.74 tabulate tqdm
+      conda create -n upload -y -c conda-forge python=$(py_ver) pydrive2 boost=1.78 tabulate tqdm
       source activate upload
       if [[ "$OSTYPE" == "darwin"* ]]; then
         conda install -y -c conda-forge python.app
