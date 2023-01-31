@@ -125,7 +125,7 @@ jobs:
 
   # upload installer to Google Drive
   - script: |
-      call conda create -n upload -y -c conda-forge python=3.9 pydrive2 boost=1.74 tabulate tqdm
+      call conda create -n upload -y -c conda-forge python=3.9 pydrive2 boost=1.78 tabulate tqdm
       call activate upload
       call conda install -y -c xfel -c conda-forge --no-deps cctbx.xfel
 
