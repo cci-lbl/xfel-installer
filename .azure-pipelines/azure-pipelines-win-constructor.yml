@@ -99,9 +99,14 @@ jobs:
   - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
     displayName: Add conda to PATH
 
+  # install mamba
+  - script: |
+      conda update -n base -y -c conda-forge --all
+      conda install -n base -y -c conda-forge mamba
+    displayName: Install mamba
+
   # set up constructor environment
   - script: |
-      set -xe
       conda create -n construct -y -c conda-forge constructor
     displayName: Set up constructor environment
 
@@ -127,7 +132,7 @@ jobs:
   - script: |
       call conda create -n upload -y -c conda-forge python=3.9 pydrive2 boost=1.78 tabulate tqdm
       call activate upload
-      call conda install -y -c xfel -c conda-forge --no-deps cctbx.xfel
+      mamba install -y -c xfel -c conda-forge --no-deps cctbx.xfel
 
       cd constructor
       libtbx.python ./upload_installer.py ^
