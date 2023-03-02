@@ -76,6 +76,7 @@ jobs:
 
   # download sources
   - checkout: xfel_feedstock
+    fetchDepth: 0
     persistCredentials: true
 
   # add conda to path
@@ -109,6 +110,15 @@ jobs:
       git remote set-url origin git@github.com:cci-lbl/xfel-feedstock.git
 
       git push -u origin main
+
+      git checkout kokkos_base
+      git rebase main
+      git push -f -u origin kokkos_base
+
+      git checkout kokkos
+      git reset --hard origin/kokkos_base
+      conda smithy rerender -c auto
+      git push -f -u origin kokkos
     displayName: Update and rerender xfel-feedstock
     continueOnError: true
     # condition: eq(variables['Build.Reason'], 'ResourceTrigger')
