@@ -110,6 +110,16 @@ jobs:
     displayName: Download remaining sources
 
   - script: |
+      set -xe
+      cd $(Pipeline.Workspace)/modules
+      for r in kokkos kokkos-kernels; download
+        cd ${r}
+        git checkout 3.7.01
+        cd ..
+      done
+    displayName: Select 3.7.1 for kokkos and kokkos-kernels
+
+  - script: |
       cd $(Pipeline.Workspace)
       cd modules/uc_metrics
       git lfs install --local
