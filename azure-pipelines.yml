@@ -112,7 +112,7 @@ jobs:
   - script: |
       set -xe
       cd $(Pipeline.Workspace)/modules
-      for r in kokkos kokkos-kernels; download
+      for r in kokkos kokkos-kernels; do
         cd ${r}
         git checkout 3.7.01
         cd ..
