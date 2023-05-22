@@ -9,7 +9,9 @@ resources:
   - pipeline: xfel_feedstock
     project: 'feedstock-builds'
     source: 'xfel-feedstock'
-    trigger: true
+    trigger:
+      enabled: true
+      branches: main
 
 jobs:
 - job: Construct_xfel_installer
