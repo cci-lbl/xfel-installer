@@ -11,7 +11,7 @@ resources:
     source: 'xfel-feedstock'
     trigger:
       enabled: true
-      branches: main
+      branches: ['main']
 
 jobs:
 - job: Construct_xfel_win_installer
