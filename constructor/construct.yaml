@@ -12,7 +12,8 @@ channels:
   - https://conda.anaconda.org/conda-forge
 
 specs:
-  - cctbx.xfel
+  - cctbx.xfel =*=cuda*  # [linux]
+  - cctbx.xfel  # [not linux]
   - pycbf
   # testing
   - dials-data
