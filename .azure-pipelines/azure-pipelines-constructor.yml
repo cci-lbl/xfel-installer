@@ -130,6 +130,7 @@ jobs:
         popd
       fi
 
+      conda config --set solver classic
       source activate construct
       cd constructor
 
