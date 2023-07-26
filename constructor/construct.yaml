@@ -33,5 +33,5 @@ specs:
   - nexpy
   - parmed  # [unix and x86_64]
   - reciprocalspaceship
-  - rise
+  # - rise
   - webcolors
