@@ -120,6 +120,12 @@ jobs:
     displayName: Select 3.7.1 for kokkos and kokkos-kernels
 
   - script: |
+      set -xe
+      cd $(Pipeline.Workspace)/modules/cbflib
+      git checkout 5232590ec6cc05bb2705acc3413ea598263854da
+    displayName: Ignore October updates to cbflib
+
+  - script: |
       cd $(Pipeline.Workspace)
       cd modules/uc_metrics
       git lfs install --local
