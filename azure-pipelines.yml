@@ -120,12 +120,6 @@ jobs:
     displayName: Select 3.7.1 for kokkos and kokkos-kernels
 
   - script: |
-      set -xe
-      cd $(Pipeline.Workspace)/modules/cctbx_project/msvc9.0_include
-      cp inttypes.h cinttypes
-    displayName: Copy inttypes.h to cinttypes
-
-  - script: |
       cd $(Pipeline.Workspace)
       cd modules/uc_metrics
       git lfs install --local
