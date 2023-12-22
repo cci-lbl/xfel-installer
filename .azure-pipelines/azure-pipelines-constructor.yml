@@ -105,9 +105,8 @@ jobs:
   - script: |
       set -xe
       conda update -n base -y conda
-      conda install -n base -y conda-libmamba-solver
-      conda config --set solver libmamba
-    displayName: Install mamba
+      conda update -n base -y --all
+    displayName: Update conda
     retryCountOnTaskFailure: 3
 
   # set up constructor environment
@@ -130,7 +129,6 @@ jobs:
         popd
       fi
 
-      conda config --set solver classic
       source activate construct
       cd constructor
 
@@ -182,7 +180,7 @@ jobs:
       if [[ "$OSTYPE" == "darwin"* ]]; then
         conda install -y -c conda-forge python.app
       fi
-      conda install -y -c xfel -c conda-forge --no-deps --freeze-installed boost boost-cpp numpy cctbx.xfel
+      conda install -y -c xfel -c conda-forge --no-deps --freeze-installed libboost libboost-python numpy cctbx.xfel
 
       cd constructor
       libtbx.python ./upload_installer.py \
