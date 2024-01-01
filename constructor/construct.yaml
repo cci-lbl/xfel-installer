@@ -15,6 +15,7 @@ specs:
   - cctbx.xfel =*=cuda*  # [linux]
   - cctbx.xfel  # [not linux]
   - pycbf
+  - libtiff =4.5
   # testing
   - dials-data
   - pytest <7

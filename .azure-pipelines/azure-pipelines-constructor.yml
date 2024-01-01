@@ -106,6 +106,7 @@ jobs:
       set -xe
       conda update -n base -y conda
       conda update -n base -y --all
+      conda info
     displayName: Update conda
     retryCountOnTaskFailure: 3
 
