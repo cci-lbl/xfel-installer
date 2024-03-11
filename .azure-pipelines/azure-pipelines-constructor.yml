@@ -58,7 +58,9 @@ jobs:
 
   # clean up linux image
   - script: |
-      sudo -n $(Build.Repository.LocalPath)/scripts/clean_linux.sh
+      set -xe
+      ls $(Build.Repository.LocalPath)
+      $(Build.Repository.LocalPath)/scripts/clean_linux.sh
     displayName: Clean up linux image
     condition: eq(variables['platform'], 'Linux-x86_64')
 
