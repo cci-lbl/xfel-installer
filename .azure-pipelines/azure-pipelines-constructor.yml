@@ -56,6 +56,12 @@ jobs:
     inputs:
       secureFile: phenix-lbl-4f3f6ca7f212.json
 
+  # clean up linux image
+  - script: |
+      sudo $(Build.Repository.LocalPath)/scripts/clean_linux.sh
+    displayName: Clean up linux image
+    condition: eq(variables['platform'], 'linux-64')
+
   # set version
   - powershell: |
       $trimmed_month = $(month).TrimStart("0")
