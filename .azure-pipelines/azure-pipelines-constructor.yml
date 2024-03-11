@@ -60,7 +60,7 @@ jobs:
   - script: |
       sudo $(Build.Repository.LocalPath)/scripts/clean_linux.sh
     displayName: Clean up linux image
-    condition: eq(variables['platform'], 'linux-64')
+    condition: eq(variables['platform'], 'Linux-x86_64')
 
   # set version
   - powershell: |
