@@ -57,7 +57,7 @@ jobs:
       secureFile: phenix-lbl-4f3f6ca7f212.json
 
   # clean up linux image
-  - script: |
+  - bash: |
       sudo $(Build.Repository.LocalPath)/scripts/clean_linux.sh
     displayName: Clean up linux image
     condition: eq(variables['platform'], 'Linux-x86_64')
