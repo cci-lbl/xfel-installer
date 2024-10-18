@@ -118,6 +118,7 @@ jobs:
       git checkout kokkos
       git reset --hard origin/kokkos_base
       conda smithy rerender -c auto
+      git commit --allow-empty -m "Trigger build"
       git push -f -u origin kokkos
     displayName: Update and rerender xfel-feedstock
     continueOnError: true
