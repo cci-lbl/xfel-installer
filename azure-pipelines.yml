@@ -124,10 +124,10 @@ jobs:
       cd $(Pipeline.Workspace)/modules
       for r in kokkos kokkos-kernels; do
         cd ${r}
-        git checkout 3.7.01
+        git checkout 4.2.01
         cd ..
       done
-    displayName: Select 3.7.1 for kokkos and kokkos-kernels
+    displayName: Select 4.2.01 for kokkos and kokkos-kernels
 
   - script: |
       cd $(Pipeline.Workspace)
