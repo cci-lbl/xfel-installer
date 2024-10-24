@@ -99,31 +99,36 @@ jobs:
       python3 update_version.py --version $(version)
     displayName: Update version
 
-  - bash: sudo chown -R $USER $CONDA
-    displayName: Take ownership of conda installation
-
-  # add conda to path
-  # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda?view=azure-devops&tabs=ubuntu-16-04#add-conda-to-your-system-path
-  - bash: echo "##vso[task.prependpath]$CONDA/bin"
-    displayName: Add conda to PATH
-
-  # install mamba
+  # miniforge
   - script: |
       set -xe
-      conda update -n base -y conda
-      conda update -n base -y --all
-      conda info
-    displayName: Update conda
-    retryCountOnTaskFailure: 3
+      mkdir -p $(Pipeline.Workspace)/miniforge
+      cd $(Pipeline.Workspace)/miniforge
+      wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+      wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+    displayName: Download miniforge
+
+  - script: |
+      set -xe
+      bash $(Pipeline.Workspace)/miniforge/Miniforge3-$(platform).sh -b -u -p $(Pipeline.Workspace)/miniforge
+    displayName: Install miniforge
+
+  - script: |
+      set -xe
+      source $(Pipeline.Workspace)/miniforge/etc/profile.d/conda.sh
+      conda update --all -y -n base
+    displayName: Update miniforge
 
   # set up constructor environment
   - script: |
       set -xe
+      source $(Pipeline.Workspace)/miniforge/etc/profile.d/conda.sh
       conda create -n construct -y -c conda-forge constructor
     displayName: Set up constructor environment
 
   - script: |
       set -xe
+      source $(Pipeline.Workspace)/miniforge/etc/profile.d/conda.sh
 
       # cross-platform constructor
       # https://github.com/conda-forge/miniforge/blob/main/scripts/build.sh
@@ -181,6 +186,7 @@ jobs:
   # upload installer to Google Drive
   - script: |
       set -xe
+      source $(Pipeline.Workspace)/miniforge/etc/profile.d/conda.sh
 
       conda create -n upload -y -c conda-forge python=$(py_ver) pydrive2 tabulate tqdm
       source activate upload
