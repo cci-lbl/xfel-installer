@@ -16,7 +16,7 @@ specs:
   - cctbx.xfel  # [not linux]
   - natsort
   - pycbf
-  - libtiff =4.5
+  - libtiff
   # testing
   - dials-data
   - pytest <7
