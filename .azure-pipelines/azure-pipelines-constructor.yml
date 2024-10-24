@@ -141,7 +141,7 @@ jobs:
         popd
       fi
 
-      source activate construct
+      conda activate construct
       cd constructor
 
       if [[ "$(platform)" == *"arm64" ]]; then
@@ -189,7 +189,7 @@ jobs:
       source $(Pipeline.Workspace)/miniforge/etc/profile.d/conda.sh
 
       conda create -n upload -y -c conda-forge python=$(py_ver) pydrive2 tabulate tqdm
-      source activate upload
+      conda activate upload
       if [[ "$OSTYPE" == "darwin"* ]]; then
         conda install -y -c conda-forge python.app
       fi
