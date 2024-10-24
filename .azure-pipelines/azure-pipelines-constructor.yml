@@ -110,7 +110,11 @@ jobs:
 
   - script: |
       set -xe
-      bash $(Pipeline.Workspace)/miniforge/Miniforge3-$(platform).sh -b -u -p $(Pipeline.Workspace)/miniforge
+      if [[ "$(platform)" == *"arm64" ]]; then
+        bash $(Pipeline.Workspace)/miniforge/Miniforge3-MacOSX-x86_64.sh -b -u -p $(Pipeline.Workspace)/miniforge
+      else
+        bash $(Pipeline.Workspace)/miniforge/Miniforge3-$(platform).sh -b -u -p $(Pipeline.Workspace)/miniforge
+      fi
     displayName: Install miniforge
 
   - script: |
