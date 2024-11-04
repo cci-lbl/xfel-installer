@@ -19,7 +19,7 @@ specs:
   - libtiff
   # testing
   - dials-data
-  - pytest <7
+  - pytest
   - pytest-forked
   - pytest-mock
   - pytest-xdist
