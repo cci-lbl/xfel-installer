@@ -24,10 +24,10 @@ specs:
   - pytest-mock
   - pytest-xdist
   # optional
-  - ambertools  # [unix and x86_64]
+  # - ambertools  # [unix and x86_64]
   - gemmi
-  - gnuplot  # [unix and x86_64]
-  - gromacs  # [unix and x86_64]
+  # - gnuplot  # [unix and x86_64]
+  # - gromacs  # [unix and x86_64]
   - jsonschema-with-format-nongpl
   - jupyterlab
   - mdtraj
