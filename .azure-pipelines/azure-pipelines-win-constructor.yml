@@ -31,8 +31,8 @@ jobs:
       win_py39:
         vmImage: win-latest
         platform: Windows
-        py_ver: 3.9
-        np_ver: 1.19
+        py_ver: 3.12
+        # np_ver: 1.19
 
   pool:
     vmImage: windows-latest

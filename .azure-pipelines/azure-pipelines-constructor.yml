@@ -21,15 +21,15 @@ jobs:
       linux_py39:
         vmImage: ubuntu-latest
         platform: Linux-x86_64
-        py_ver: 3.9
+        py_ver: 3.12
       macOS_py39:
         vmImage: macOS-latest
         platform: MacOSX-x86_64
-        py_ver: 3.9
+        py_ver: 3.12
       macOS_arm64_py39:
         vmImage: macOS-latest
         platform: MacOSX-arm64
-        py_ver: 3.9
+        py_ver: 3.12
 
   pool:
     vmImage: $(vmImage)
