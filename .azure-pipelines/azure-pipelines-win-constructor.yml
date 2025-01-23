@@ -126,7 +126,7 @@ jobs:
 
   # upload installer to Google Drive
   - script: |
-      call conda create -n upload -y -c conda-forge mamba python=3.9 pydrive2 libboost libboost-python tabulate tqdm
+      call conda create -n upload -y -c conda-forge mamba python=$(py_ver) pydrive2 libboost libboost-python tabulate tqdm
       call activate upload
       mamba install -y -c xfel -c conda-forge --no-deps cctbx.xfel
 
