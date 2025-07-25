@@ -36,10 +36,10 @@ rm -fr ${EDGEWEBDRIVER}
 rm -fr ${GECKOWEBDRIVER}
 
 # make swap disk
-fallocate -l 16GiB /swapfile || true
-chmod 600 /swapfile || true
-mkswap /swapfile || true
-swapon /swapfile
+# fallocate -l 16GiB /swapfile || true
+# chmod 600 /swapfile || true
+# mkswap /swapfile || true
+# swapon /swapfile
 
 # check disk space after
 df -h
