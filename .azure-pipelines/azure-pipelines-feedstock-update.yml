@@ -15,13 +15,13 @@ pr: none
 resources:
   pipelines:
   - pipeline: source_tarball
-    source: source_tarball_erice
+    source: source_tarball
     trigger: true
   repositories:
   - repository: xfel_feedstock
     type: github
-    name: cci-lbl/xfel-feedstock
-    endpoint: cci-lbl
+    name: cctbx-xfel/xfel-feedstock
+    endpoint: cctbx-xfel
 
 jobs:
 - job: Update_xfel_feedstock
@@ -88,12 +88,12 @@ jobs:
   - script: conda config --set plugins.auto_accept_tos yes
     displayName: Accept conda TOS
 
-  # update cci-lbl/xfel-feedstock to trigger conda package builds
+  # update cctbx-xfel/xfel-feedstock to trigger conda package builds
   - script: |
       set -xe
 
-      git config user.name "Billy K. Poon"
-      git config user.email "bkpoon@lbl.gov"
+      git config user.name "Aaron S. Brewster"
+      git config user.email "asbrewster@lbl.gov"
 
       git checkout main
 
@@ -115,7 +115,7 @@ jobs:
       sed -i "s/condition: not(eq(variables.ENV_ARTIFACT_PATH, ''))/condition: false/g" .azure-pipelines/azure-pipelines-win.yml
       git commit -am "Skip Windows environment artifact"
 
-      git remote set-url origin git@github.com:cci-lbl/xfel-feedstock.git
+      git remote set-url origin git@github.com:cctbx-xfel/xfel-feedstock.git
 
       git push -u origin main
 
